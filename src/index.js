@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import './index.css';
 import * as msg from './msg.js';
 import { Button, DatePicker, PageHeader } from 'antd';
-import './index.css'
 
 
 const Container = styled.div`
@@ -47,13 +46,12 @@ const App = (props) => {
     emailEditorRef.current.editor.saveDesign((design) => {
       const element2 = document.createElement("a");
       console.log('saveDesign', design);
-      const designFile = new Blob([design],    
+      const designFile = new Blob([JSON.stringify(design)],    
       {type: 'application/json;charset=utf-8'});
       element2.href = URL.createObjectURL(designFile);
       element2.download = "template.json";
       document.body.appendChild(element2);
       element2.click();
-      alert('Design JSON has been logged in your developer console.');
     });
   };
 
@@ -93,8 +91,8 @@ const App = (props) => {
         title = "RMHC Philly Email Template Designer"
         extra={[
         <Button type="primary" onClick={exportHtml}>Export Your Template</Button>,
-        <Button type="secondary" onClick={loadDefault}>Load Sample Template</Button>,
-        <Button type="secondary" onClick={saveDesign}>Save Current Design</Button>,]}>
+        <Button type="secondary" onClick={saveDesign}>Save Current Design</Button>,
+        <Button type="dashed" onClick={loadDefault}>Load Sample Template</Button>]}>
       </PageHeader>
       <React.StrictMode>
         <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady} />
