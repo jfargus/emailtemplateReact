@@ -1,6 +1,9 @@
 {
   "name": "rmhcphilly",
   "version": "0.1.0",
+  "engines": {
+    "node": "14.19.1"
+  },
   "private": true,
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
