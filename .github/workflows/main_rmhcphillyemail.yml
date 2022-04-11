@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'rmhcphillyEmail'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_70179BE594C74D53A8FE4645C0CDC869 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_573134606EDF49ACB32A78101E058094 }}
           package: .
