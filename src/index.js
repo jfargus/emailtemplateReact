@@ -5,8 +5,8 @@ import sample from './sample.json';
 import styled from 'styled-components';
 import './index.css';
 import * as msg from './msg.js';
-import { Button, DatePicker, PageHeader } from 'antd';
-
+import { Button, Input, PageHeader } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
 const Container = styled.div`
   display: flex;
@@ -16,6 +16,35 @@ const Container = styled.div`
 `;
 
 const App = (props) => {
+
+  function importData() {
+    let input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = _ => {
+      // you can use this method to get file and perform respective operations
+              let files =   Array.from(input.files);
+              fileReader = new FileReader();
+              fileReader.onloadend = handleFileRead;
+              fileReader.readAsText(files[0]);
+          };
+    input.click();    
+  }
+  
+  let fileReader;
+
+  const handleFileRead = (e) => {
+    const content = fileReader.result;
+    emailEditorRef.current.editor.loadDesign(JSON.parse(content));
+    
+  };
+  
+  const handleFileChosen = (file) => {
+    fileReader = new FileReader();
+    fileReader.onloadend = handleFileRead;
+    fileReader.readAsText(file);
+  };
+
   const emailEditorRef = useRef(null);
   function createMSGFile(html) {
     const htmlBody = html
@@ -49,7 +78,7 @@ const App = (props) => {
       const designFile = new Blob([JSON.stringify(design)],    
       {type: 'application/json;charset=utf-8'});
       element2.href = URL.createObjectURL(designFile);
-      element2.download = "template.json";
+      element2.download = "myDesign";
       document.body.appendChild(element2);
       element2.click();
     });
@@ -81,6 +110,17 @@ const App = (props) => {
     emailEditorRef.current.editor.loadDesign(sample);
   }
 
+  const loadNew = (file) => {
+    console.log('onLoad');
+
+    emailEditorRef.current.editor.addEventListener(
+      'design:loaded',
+      onDesignLoad
+    );
+
+    emailEditorRef.current.editor.loadDesign(file);
+  }
+
   const onReady = () => {
     console.log('onReady');
   };
@@ -92,6 +132,7 @@ const App = (props) => {
         extra={[
         <Button type="primary" onClick={exportHtml}>Export Your Template</Button>,
         <Button type="secondary" onClick={saveDesign}>Save Current Design</Button>,
+        <Button icon={<UploadOutlined />} onClick = {importData}  >Upload an Existing Template</Button>,
         <Button type="dashed" onClick={loadDefault}>Load Sample Template</Button>]}>
       </PageHeader>
       <React.StrictMode>

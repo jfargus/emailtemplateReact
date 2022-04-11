@@ -18,6 +18,7 @@
     "react-email-editor": "^1.5.0",
     "react-scripts": "5.0.0",
     "styled-components": "^5.3.5",
+    "use-file-picker": "^1.4.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
